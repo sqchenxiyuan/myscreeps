@@ -4,24 +4,7 @@ var roleBuilder = require('role.builder');
 
 module.exports.loop = function () {
 
-    creatnewfamer('collector',3)
-    creatnewfamer('upgrader',2)
-    creatnewfamer('builder',0)
-    // var upgraders=_.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-    // var builders=_.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-    // console.log(collectors.length);
-    // if(collectors.length < 2) {
-    //     var newName = Game.spawns['_life'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'collector'});
-    //     console.log('Spawning new harvester: ' + newName);
-    // }
-    // if(upgraders.length < 3) {
-    //     var newName = Game.spawns['_life'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
-    //     console.log('Spawning new harvester: ' + newName);
-    // }
-    // if(builders.length < 4) {
-    //     var newName = Game.spawns['_life'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
-    //     console.log('Spawning new harvester: ' + newName);
-    // }
+    createfamer();
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -37,12 +20,32 @@ module.exports.loop = function () {
     }
 }
 
-function creatnewfamer(role,num){
-    var collectors = _.filter(Game.creeps,(creep) => creep.memory.role == role);
-    if(collectors.length<num){
-        if(Game.spawns['TG2'].energy>=200){
-        var newName = Game.spawns['TG2'].createCreep([WORK,CARRY,MOVE],undefined, {role: role});
-         console.log('Spawning new harvester: ' + newName);
+function createfamer(){
+    var creating=false;
+    var famerrole=null;
+    creatnewfamer('collector',5)
+    creatnewfamer('upgrader',5)
+    creatnewfamer('builder',2)
+    
+    function creatnewfamer(role,num){
+        if(!creating){
+            var collectors = _.filter(Game.creeps,(creep) => creep.memory.role == role);
+            if(collectors.length<num){
+                
+                for(var name in Memory.creeps){
+                    if(!Game.creeps[name]){
+                        delete Memory.creeps[name];
+                        console.log('Clearing non-existing creep memory:', name)
+                    }
+                }
+                creating=true;
+                famerrole=role;
+            }
         }
+    }
+    
+    if(Game.spawns['TG2'].energy>=200&&creating){
+        var newName = Game.spawns['TG2'].createCreep([WORK,CARRY,CARRY,MOVE],undefined, {role:famerrole});
+         console.log('Spawning new harvester: ' + newName+"--"+famerrole);
     }
 }
