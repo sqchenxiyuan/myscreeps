@@ -23,9 +23,9 @@ module.exports.loop = function () {
 function createfamer(){
     var creating=false;
     var famerrole=null;
-    creatnewfamer('collector',5)
+    creatnewfamer('collector',8)
     creatnewfamer('upgrader',5)
-    creatnewfamer('builder',2)
+    creatnewfamer('builder',0)
     
     function creatnewfamer(role,num){
         if(!creating){
