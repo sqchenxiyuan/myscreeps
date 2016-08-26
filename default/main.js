@@ -25,7 +25,7 @@ function createfamer(){
     var famerrole=null;
     creatnewfamer('collector',8)
     creatnewfamer('upgrader',5)
-    creatnewfamer('builder',0)
+    creatnewfamer('builder',1)
     
     function creatnewfamer(role,num){
         if(!creating){
@@ -45,7 +45,7 @@ function createfamer(){
     }
     
     if(Game.spawns['TG2'].energy>=200&&creating){
-        var newName = Game.spawns['TG2'].createCreep([WORK,CARRY,CARRY,MOVE],undefined, {role:famerrole});
+        var newName = Game.spawns['TG2'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE,MOVE],undefined, {role:famerrole});
          console.log('Spawning new harvester: ' + newName+"--"+famerrole);
     }
 }
